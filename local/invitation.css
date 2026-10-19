@@ -3,6 +3,16 @@ nav.fixed.bottom-0 {
   display: none !important;
 }
 
+/* Hide the language suggestion and the floating support chat widget. */
+.bg-primary\/10.border-b.border-primary\/20,
+.jsx-5db65d816a97458c.fixed.bottom-40 {
+  display: none !important;
+}
+
+p[data-invite-guest]::after {
+  content: ' ' attr(data-invite-guest);
+}
+
 a.wedding-directions {
   background: #6e1724 !important;
   color: #fff8ed !important;
