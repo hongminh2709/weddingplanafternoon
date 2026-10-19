@@ -12,7 +12,13 @@
     return url.href;
   }
 
-  var api = { guestFromUrl: guestFromUrl, buildLink: buildLink };
+  function openFallbackUrl(value) {
+    var url = new URL(value);
+    url.searchParams.set('open', '1');
+    return url.href;
+  }
+
+  var api = { guestFromUrl: guestFromUrl, buildLink: buildLink, openFallbackUrl: openFallbackUrl };
   if (typeof module !== 'undefined' && module.exports) {
     module.exports = api;
     return;
@@ -20,11 +26,14 @@
   root.personalizedInvitation = api;
 
   var guest = guestFromUrl(root.location.href);
-  if (!guest) return;
 
   function updateEnvelope() {
     var envelope = document.querySelector('[data-landing-screenshot-id="invite-envelope"]');
     if (!envelope) return;
+    var openLink = envelope.querySelector('a[href]');
+    var fallback = openFallbackUrl(root.location.href);
+    if (openLink && openLink.href !== fallback) openLink.href = fallback;
+    if (!guest) return;
     envelope.querySelectorAll('p').forEach(function (paragraph) {
       var label = paragraph.querySelector('span');
       if (label && label.textContent.trim().toLocaleLowerCase('vi') === 'thân mời' &&
