@@ -2,14 +2,26 @@
   'use strict';
 
   function guestFromUrl(value) {
-    return (new URL(value).searchParams.get('guest') || '').trim();
+    var url = new URL(value);
+    var legacy = url.searchParams.get('guest');
+    if (legacy !== null) return legacy.trim();
+    var match = url.pathname.match(/^\/m\/([A-Za-z0-9_-]+)\/?$/);
+    if (!match) return '';
+    try {
+      var encoded = match[1].replace(/-/g, '+').replace(/_/g, '/');
+      var binary = atob(encoded);
+      var bytes = Uint8Array.from(binary, function (character) { return character.charCodeAt(0); });
+      return new TextDecoder('utf-8', { fatal: true }).decode(bytes).trim();
+    } catch (_) { return ''; }
   }
 
   function buildLink(origin, guest) {
-    var url = new URL('/chungdoi.com/i/hongminh-khanhlinh.html', origin);
     var name = guest.trim();
-    if (name) url.searchParams.set('guest', name);
-    return url.href;
+    if (!name) return new URL('/', origin).href;
+    var bytes = new TextEncoder().encode(name);
+    var binary = Array.from(bytes, function (byte) { return String.fromCharCode(byte); }).join('');
+    var code = btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    return new URL('/m/' + code, origin).href;
   }
 
   function openFallbackUrl(value) {
