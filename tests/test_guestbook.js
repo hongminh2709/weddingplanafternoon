@@ -10,6 +10,10 @@ assert.equal(typeof createGuestbookFetch, 'function', 'guestbook adapter is avai
   };
   const fetch = createGuestbookFetch(fetchStub, { url: 'https://example.supabase.co', key: 'public-key' });
   const endpoint = 'https://api.chungdoi.com/api/invite/hongminh-khanhlinh/comments';
+  const disabled = createGuestbookFetch(fetchStub);
+  const unavailable = await disabled(endpoint);
+  assert.equal(unavailable.status, 503);
+  assert.equal(requests.length, 0, 'unconfigured guestbook must not send a request');
   const list = await (await fetch(endpoint)).json();
   assert.equal(list.comments[0].message, 'Chúc mừng!');
   assert.match(requests[0].url, /guestbook\?/);

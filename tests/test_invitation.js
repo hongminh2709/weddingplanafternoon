@@ -25,6 +25,15 @@ assert.equal(new URL(frame.props.src).hostname, 'maps.google.com');
 assert.equal(new URL(frame.props.src).searchParams.has('key'), false);
 assert.equal(new URL(frame.props.src).searchParams.get('q'), 'Nhà văn hoá');
 
+const urlExports = {};
+modules[46830] = {};
+chunks[0][1][80497](null, urlExports, requireModule);
+const generated = urlExports.MG({ address: 'Nhà văn hoá' });
+assert.equal(new URL(generated).searchParams.has('key'), false);
+const embedded = new URL(compat.mapEmbedUrl(generated));
+assert.equal(embedded.searchParams.get('q'), 'Nhà văn hoá');
+assert.equal(embedded.searchParams.get('output'), 'embed');
+
 const scrollCode = fs.readFileSync('chungdoi.com/_next/static/chunks/2065-d547b56d1a80cad3.js', 'utf8');
 assert.match(scrollCode, /if\(!e\)return 25;let t=parseInt\(e,10\);return isNaN\(t\)\|\|t<=0\?25:t/);
 assert.match(mapCode, /className:"wedding-directions /);
