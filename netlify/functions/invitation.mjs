@@ -3,7 +3,7 @@ import path from 'node:path';
 import { TextDecoder } from 'node:util';
 
 const invitationFile = path.resolve(process.cwd(), 'chungdoi.com/i/hongminh-khanhlinh.html');
-const photoPath = '/cdn.chungdoi.com/uploads/4fc1d983-574d-41fa-8665-38e071d95976.jpg';
+const socialPreviewPath = '/images/social-preview.jpg';
 
 function escapeAttribute(value) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -33,9 +33,10 @@ export default async function invitation(request, context = {}) {
     .replace(/<meta name="twitter:description" content="[^"]*"\/>/, `<meta name="twitter:description" content="${escapeAttribute(description)}"/>`)
     .replace(/<meta property="og:url" content="[^"]*"\/>/, `<meta property="og:url" content="${escapeAttribute(shareUrl)}"/>`)
     .replace(/<link rel="canonical" href="[^"]*"\/>/, `<link rel="canonical" href="${escapeAttribute(shareUrl)}"/>`)
-    .replace(/<meta property="og:image" content="[^"]*"\/>/, `<meta property="og:image" content="${escapeAttribute(origin + photoPath)}"/>`)
-    .replace(/<meta name="twitter:image" content="[^"]*"\/>/, `<meta name="twitter:image" content="${escapeAttribute(origin + photoPath)}"/>`)
-    .replace(/<meta property="og:image:(?:width|height)" content="[^"]*"\/>/g, '');
+    .replace(/<meta property="og:image" content="[^"]*"\/>/, `<meta property="og:image" content="${escapeAttribute(origin + socialPreviewPath)}"/>`)
+    .replace(/<meta name="twitter:image" content="[^"]*"\/>/, `<meta name="twitter:image" content="${escapeAttribute(origin + socialPreviewPath)}"/>`)
+    .replace(/<meta property="og:image:width" content="[^"]*"\/>/, '<meta property="og:image:width" content="1200"/>')
+    .replace(/<meta property="og:image:height" content="[^"]*"\/>/, '<meta property="og:image:height" content="630"/>');
   return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'public, max-age=0, s-maxage=3600' } });
 }
 

@@ -15,6 +15,7 @@ class NetlifyBuildTest(unittest.TestCase):
                 '_next/static/css/f0c5e11479c4461e.css',
                 'fonts/ViaodaLibre-Regular.ttf',
                 'images/themes/minimalism-dark-red/flower2-decoration.webp',
+                'images/social-preview.jpg',
                 'local/guestbook.js',
                 'cdn.chungdoi.com/uploads/fd5cd203-8da7-4ea6-8f76-fd2389d3a7f5.jpg',
                 'manifest.json',
