@@ -9,6 +9,8 @@ assert.equal(response.status, 200);
 const html = await response.text();
 assert.match(html, /property="og:description" content="Thân mời em Ánh &amp; gia đình/);
 assert.match(html, /property="og:url" content="https:\/\/example\.com\/m\//);
+assert.match(html, /<meta property="og:updated_time" content="[^"]+"\/>/);
+assert.doesNotMatch(html, /<meta name="og:updated_time"/);
 assert.match(html, /property="og:image" content="https:\/\/example\.com\/images\/social-preview\.jpg"/);
 assert.match(html, /property="og:image:width" content="1200"/);
 assert.match(html, /property="og:image:height" content="630"/);
